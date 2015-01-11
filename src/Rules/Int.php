@@ -6,7 +6,7 @@ class Int
 {
     /**
      * Run the validation
-     * 
+     *
      * @param  string $name
      * @param  mixed $value
      * @return bool

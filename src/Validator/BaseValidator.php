@@ -7,8 +7,8 @@ use Violin\Rules\All;
 class BaseValidator
 {
     /**
-     * All default rule messages
-     * 
+     * All rule messages
+     *
      * @var array
      */
     public $ruleMessages = [
@@ -17,8 +17,15 @@ class BaseValidator
     ];
 
     /**
+     * All field messages
+     *
+     * @var array
+     */
+    public $fieldMessages;
+
+    /**
      * Accumulated errors
-     * 
+     *
      * @var array
      */
     protected $errors;
@@ -26,10 +33,10 @@ class BaseValidator
     /**
      * Checks if an internal class for request validation exists,
      * and if so, runs it with arguments and reports an error.
-     * 
+     *
      * @param  string   $method
      * @param  array    $args
-     * 
+     *
      * @return void
      */
     public function __call($method, $args)
@@ -42,7 +49,6 @@ class BaseValidator
         $ruleClass = 'Violin\\Rules\\' . ucfirst($rule);
 
         if (class_exists($ruleClass)) {
-
             // Create a new instance of the internal rule class.
             $ruleClass = new $ruleClass();
 
@@ -59,7 +65,7 @@ class BaseValidator
 
     /**
      * Gets the list of accumulated errors
-     * 
+     *
      * @return array
      */
     public function errors()
@@ -69,23 +75,31 @@ class BaseValidator
 
     /**
      * Adds an error to the list of messages
-     * 
+     *
      * @param  string $messageKey
      * @param  array $args
      * @return void
      */
     public function error($messageKey, $args)
     {
-        // Extract the message from the ruleMessages array, passing
-        // in the arguments to replace %s's if required.
-        $message = vsprintf($this->ruleMessages[$messageKey], $args);
+        $field = $args[0];
 
-        $this->errors[] = $message;
+        // If a field message has been set, we use this as preference.
+        // Otherwise, we use the standard rule messages.
+        if (isset($this->fieldMessages[$field][$messageKey])) {
+            $message = $this->fieldMessages[$field][$messageKey];
+        } else {
+            $message = $this->ruleMessages[$messageKey];
+        }
+
+        // Extract the message from the ruleMessages array, passing in
+        // the arguments to replace %s's if required, and return it.
+        $this->errors[] = vsprintf($message, $args);
     }
 
     /**
      * Checks if validation has passed.
-     * 
+     *
      * @return bool
      */
     public function valid()
@@ -94,8 +108,8 @@ class BaseValidator
     }
 
     /**
-     * Adds a custom rule message
-     * 
+     * Adds a custom rule message.
+     *
      * @param string $rule
      * @param string $message
      */
@@ -105,12 +119,34 @@ class BaseValidator
     }
 
     /**
-     * Adds custom rule messages
-     * 
+     * Adds custom rule messages.
+     *
      * @param array $messages
      */
     public function addRuleMessages(array $messages)
     {
         $this->ruleMessages = $messages;
+    }
+
+    /**
+     * Adds a custom field message.
+     *
+     * @param string $field
+     * @param string $rule
+     * @param string $message
+     */
+    public function addFieldMessage($field, $rule, $message)
+    {
+        $this->fieldMessages[$field][$rule] = $message;
+    }
+
+    /**
+     * Adds custom field messages
+     *
+     * @param array $messages
+     */
+    public function addFieldMessages(array $messages)
+    {
+        $this->fieldMessages = $messages;
     }
 }
