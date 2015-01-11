@@ -6,7 +6,7 @@ use Violin\Rules\All;
 
 class BaseValidator
 {
-    public $messages = [
+    public $ruleMessages = [
         'required' => '%s is required',
         'int' => '%s must be an integer'
     ];
@@ -15,17 +15,18 @@ class BaseValidator
 
     public function __call($method, $args)
     {
-        $method = explode('_', $method);
-        $method = end($method);
+        $internalMethod = explode('_', $method);
+        $internalMethod = end($internalMethod);
 
-        $class = 'Violin\\Rules\\' . ucfirst($method);
+        $class = 'Violin\\Rules\\' . ucfirst($internalMethod);
+
         if (class_exists($class)) {
             $class = new $class();
 
             $valid = call_user_func_array([$class, 'run'], $args);
 
             if (!$valid) {
-                $this->error(vsprintf($this->messages[$method], $args));
+                $this->error($internalMethod, $args);
             }
         }
     }
@@ -35,9 +36,9 @@ class BaseValidator
         return $this->errors;
     }
 
-    public function error($message)
+    public function error($messageKey, $args)
     {
-        $this->errors[] = $message;
+        $this->errors[] = vsprintf($this->ruleMessages[$messageKey], $args);
     }
 
     public function valid()
@@ -45,8 +46,13 @@ class BaseValidator
         return empty($this->errors);
     }
 
-    public function addMessage($rule, $message)
+    public function addRuleMessage($rule, $message)
     {
-        $this->messages[$rule] = $message;
+        $this->ruleMessages[$rule] = $message;
+    }
+
+    public function addRuleMessages(array $messages)
+    {
+        $this->ruleMessages = $messages;
     }
 }
