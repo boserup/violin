@@ -16,5 +16,7 @@ class Required
         if (empty($value)) {
             return false;
         }
+
+        return true;
     }
 }

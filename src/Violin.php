@@ -19,12 +19,13 @@ class Violin extends BaseValidator
     {
         // Loop each requested validation field
         foreach ($fields as $name => $value) {
+
             // Get rules, which are originally
             // seperated by a pipe.
-            $rules = explode('|', $rules[$name]);
+            $fieldRules = explode('|', $rules[$name]);
 
             // Loop each requested rule
-            foreach ($rules as $rule) {
+            foreach ($fieldRules as $rule) {
                 $this->$rule($name, $value);
             }
         }
