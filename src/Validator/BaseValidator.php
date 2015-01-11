@@ -43,7 +43,7 @@ class BaseValidator
     {
         // Check if a custom rule has been defined and if so, call it
         // and check if it's valid, adding an error if required.
-        if(method_exists($this, 'validate_' . $method)) {
+        if (method_exists($this, 'validate_' . $method)) {
             $valid = call_user_func_array([$this, 'validate_' . $method], $args);
 
             // Log an error if it's not valid
