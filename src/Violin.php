@@ -16,16 +16,9 @@ class Violin extends BaseValidator
 
                 if ($this->methodExists($method)) {
                     $this->$method($name, $value);
-                } else {
-                    $this->$rule($name, $value);
                 }
             }
         }
-    }
-
-    public function valid()
-    {
-        return empty(parent::$errors);
     }
 
     protected function methodExists($method)

@@ -2,14 +2,12 @@
 
 namespace Violin\Rules;
 
-use Violin\Validator\BaseValidator;
-
-class Int extends BaseValidator
+class Int
 {
-    public static function run($name, $value)
+    public function run($name, $value)
     {
         if (!is_int($value)) {
-            self::$errors[] = "{$name} must be an integer";
+            return "{$name} must be an integer";
         }
     }
 }
