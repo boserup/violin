@@ -94,7 +94,7 @@ class BaseValidator
 
         // Extract the message from the ruleMessages array, passing in
         // the arguments to replace %s's if required, and return it.
-        $this->errors[] = vsprintf($message, $args);
+        $this->errors[$field][] = vsprintf($message, $args);
     }
 
     /**
