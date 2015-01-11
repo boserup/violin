@@ -6,20 +6,27 @@ use Violin\Rules\All;
 
 class BaseValidator
 {
+    public $messages = [
+        'required' => '%s is required',
+        'int' => '%s must be an integer'
+    ];
+
     protected $errors;
 
     public function __call($method, $args)
     {
         $method = explode('_', $method);
-        $method = ucfirst(end($method));
+        $method = end($method);
 
-        $class = 'Violin\\Rules\\' . $method;
-        if(class_exists($class)) {
+        $class = 'Violin\\Rules\\' . ucfirst($method);
+        if (class_exists($class)) {
             $class = new $class();
 
-            $result = call_user_func_array([$class, 'run'], $args);
+            $valid = call_user_func_array([$class, 'run'], $args);
 
-            $this->error($result);
+            if (!$valid) {
+                $this->error(vsprintf($this->messages[$method], $args));
+            }
         }
     }
 
@@ -36,5 +43,10 @@ class BaseValidator
     public function valid()
     {
         return empty($this->errors);
+    }
+
+    public function addMessage($rule, $message)
+    {
+        $this->messages[$rule] = $message;
     }
 }
