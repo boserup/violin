@@ -25,25 +25,8 @@ class Violin extends BaseValidator
 
             // Loop each requested rule
             foreach ($rules as $rule) {
-                // Custom method names will start with validate_
-                // so we check if this is callable first.
-                $method = 'validate_' . $rule;
-
-                if ($this->methodExists($method)) {
-                    $this->$method($name, $value);
-                }
+                $this->$rule($name, $value);
             }
         }
-    }
-
-    /**
-     * Checks if a method is callable
-     *
-     * @param  string $method
-     * @return bool
-     */
-    protected function methodExists($method)
-    {
-        return is_callable([$this, $method]);
     }
 }

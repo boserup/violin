@@ -41,6 +41,19 @@ class BaseValidator
      */
     public function __call($method, $args)
     {
+        // Check if a custom rule has been defined and if so, call it
+        // and check if it's valid, adding an error if required.
+        if(method_exists($this, 'validate_' . $method)) {
+            $valid = call_user_func_array([$this, 'validate_' . $method], $args);
+
+            // Log an error if it's not valid
+            if (!$valid) {
+                $this->error($method, $args);
+            }
+
+            return;
+        }
+
         // Extract the possible internal class name
         // to look for a validation rule.
         $rule = explode('_', $method);
