@@ -31,6 +31,13 @@ class BaseValidator
     protected $errors;
 
     /**
+     * Custom defined rules
+     * 
+     * @var array
+     */
+    protected $customRules;
+
+    /**
      * Checks if an internal class for request validation exists,
      * and if so, runs it with arguments and reports an error.
      *
@@ -73,7 +80,27 @@ class BaseValidator
             if (!$valid) {
                 $this->error($rule, $args);
             }
+        } else {
+            // Otherwise, we might have a custom added rule not defined
+            // within a class that extends Violin. Call it here.
+            $valid = $this->customRules[$rule]($args[0], $args[1]);
+
+            // Log an error if it's not valid
+            if (!$valid) {
+                $this->error($rule, $args);
+            }
         }
+    }
+
+    /**
+     * Adds a new rule
+     * 
+     * @param string $name
+     * @param Closure $callback
+     */
+    public function addRule($name, $callback)
+    {
+        $this->customRules[$name] = $callback;
     }
 
     /**
