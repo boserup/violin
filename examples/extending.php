@@ -10,7 +10,7 @@ class Validator extends Violin\Violin
 {
     protected $db;
 
-    protected function __construct(Database $db)
+    public function __construct(Database $db)
     {
         $this->db = $db; // Some database dependency
 
