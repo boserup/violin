@@ -11,8 +11,6 @@ $v->addRuleMessages([
     'int' => 'The %s needs to be an integer, but I found %s.',
 ]);
 
-var_dump($v->ruleMessages);
-
 $v->validate([
     'name' => '',
     'age' => 20
