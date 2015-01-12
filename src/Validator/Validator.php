@@ -95,7 +95,7 @@ class Validator
 
     /**
      * Extract the rule name
-     * 
+     *
      * @param  string $method
      * @return string
      */
@@ -104,7 +104,7 @@ class Validator
         // Extract the possible internal class name
         // to look for a validation rule later.
         $rule = explode('validate_', $method);
-        
+
         return end($rule);
     }
 

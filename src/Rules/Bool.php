@@ -2,7 +2,7 @@
 
 namespace Violin\Rules;
 
-class Required
+class Bool
 {
     /**
      * Run the validation
@@ -13,6 +13,6 @@ class Required
      */
     public function run($name, $value)
     {
-        return is_string($value) && !empty(trim($value));
+        return is_bool($value);
     }
 }

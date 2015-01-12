@@ -13,6 +13,6 @@ class Int
      */
     public function run($name, $value)
     {
-        return is_int($value);
+        return is_numeric($value) && (int)$value == $value;
     }
 }
