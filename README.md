@@ -91,6 +91,27 @@ $v->addFieldMessages([
 ]);
 ```
 
+### Error output
+
+Errors are output categorised by field, so you're free to play around with them in whatever way you need them output.
+
+```text
+array(2) {
+  ["name"]=>
+  array(1) {
+    [0]=>
+    string(16) "name is required"
+  }
+  ["age"]=>
+  array(2) {
+    [0]=>
+    string(15) "age is required"
+    [1]=>
+    string(20) "age must be a number"
+  }
+}
+```
+
 ## Extending the Violin class
 
 You can extend Violin to implement your own validation class and add rules, custom rule messages and custom field messages.
