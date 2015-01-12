@@ -32,7 +32,7 @@ class Validator
 
     /**
      * Custom defined rules
-     * 
+     *
      * @var array
      */
     protected $customRules;
@@ -74,18 +74,31 @@ class Validator
 
         // If we've found a method to call, call it with arguments
         // and check if the validation didn't pass.
-        if($toCall) {
-            $valid = call_user_func_array($toCall, $args);
+        if ($toCall) {
+            $this->callAndValidate($rule, $toCall, $args);
+        }
+    }
 
-            if(!$valid) {
-                $this->error($rule, $args);
-            }
+    /**
+     * Call and validate a single rule and data
+     *
+     * @param  string $rule
+     * @param  array $toCall
+     * @param  array $args
+     * @return void
+     */
+    protected function callAndValidate($rule, $toCall, $args)
+    {
+        $valid = call_user_func_array($toCall, $args);
+
+        if (!$valid && $valid !== null) {
+            $this->error($rule, $args);
         }
     }
 
     /**
      * Adds a new rule
-     * 
+     *
      * @param string $name
      * @param Closure $callback
      */

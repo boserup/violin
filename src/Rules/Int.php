@@ -16,7 +16,5 @@ class Int
         if (!is_int($value)) {
             return false;
         }
-
-        return true;
     }
 }

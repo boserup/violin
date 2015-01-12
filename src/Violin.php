@@ -19,7 +19,6 @@ class Violin extends Validator
     {
         // Loop each requested validation field
         foreach ($fields as $name => $value) {
-
             // Get rules, which are originally
             // seperated by a pipe.
             $fieldRules = explode('|', $rules[$name]);
