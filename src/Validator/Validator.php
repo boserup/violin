@@ -130,11 +130,9 @@ class Validator
 
         // If a field message has been set, we use this as preference.
         // Otherwise, we use the standard rule messages.
-        if (isset($this->fieldMessages[$field][$messageKey])) {
-            $message = $this->fieldMessages[$field][$messageKey];
-        } else {
-            $message = $this->ruleMessages[$messageKey];
-        }
+        $message = isset($this->fieldMessages[$field][$messageKey])
+            ? $this->fieldMessages[$field][$messageKey]
+            : $this->ruleMessages[$messageKey];
 
         // Extract the message from the ruleMessages array, passing in
         // the arguments to replace %s's if required, and return it.
