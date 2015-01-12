@@ -4,7 +4,7 @@ namespace Violin\Validator;
 
 use Violin\Rules\All;
 
-class BaseValidator
+class Validator
 {
     /**
      * All rule messages
