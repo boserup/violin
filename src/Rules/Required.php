@@ -13,8 +13,6 @@ class Required
      */
     public function run($name, $value)
     {
-        if (empty($value)) {
-            return false;
-        }
+        return !empty($value);
     }
 }
