@@ -53,7 +53,7 @@ class Validator
         $rule = explode('_', $method);
         $rule = end($rule);
 
-        // Holds what method we want to call to validate.
+        // Holds what method and arguments we want to call to validate.
         $toCall = null;
 
         // Check if a custom rule has been defined and if so, call it
