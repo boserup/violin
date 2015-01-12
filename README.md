@@ -10,7 +10,9 @@ Install using Composer.
 
 ```json
 {
-    "alexgarrett/violin": "1.*"
+    "require": {
+        "alexgarrett/violin": "1.*"
+    }
 }
 ```
 
