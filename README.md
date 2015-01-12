@@ -106,7 +106,7 @@ class Validator extends Violin\Violin
 
         // You can add a custom rule message here if you like, or, you
         // could add it outside of this validation class when you
-        // make use of your new Validator object (see below).
+        // make use of your new Validator object.
         $this->addRuleMessage('usernameDoesNotExist', 'That username is taken');
     }
 
