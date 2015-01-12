@@ -2,7 +2,7 @@
 
 Violin is an easy to use, highly customisable PHP validator.
 
-**Note: This package is under heavy development and is not recommended for production**
+**Note: This package is under heavy development and is not recommended for production.**
 
 ## Installing
 
@@ -52,19 +52,46 @@ $v->addRule('isBanana', function($field, $value) {
 
 You can add rule messages, or field messages for total flexibility.
 
-### Adding rule messages
+### Adding a rule message
 
 ```php
 $v->addRuleMessage('required', 'You better fill in the %s field, or else.');
 ```
 
-### Adding field messages
+### Adding rule messages in bulk
+
+```php
+$v->addRuleMessages([
+    'required', 'You better fill in the %s field, or else.',
+    'int', 'The %s needs to be an integer, but I found %s.',
+]);
+```
+
+### Adding a field message
+
+Any field messages you add are preferred over any default or custom rule messages.
 
 ```php
 $v->addFieldMessage('username', 'required', 'You need to enter a username to sign up.');
 ```
 
+### Adding field messages in bulk
+
+```php
+$v->addFieldMessages([
+    'username' => [
+        'required', 'You need to enter a username to sign up.'
+    ],
+    'age' => [
+        'required' => 'I need your age.',
+        'int' => 'Your age needs to be an integer.',
+    ]
+]);
+```
+
 ## Extending the Violin class
+
+You can extend Violin to implement your own validation class and add rules, custom rule messages and custom field messages.
 
 ```php
 class Validator extends Violin\Violin
@@ -89,6 +116,10 @@ class Validator extends Violin\Violin
         }
     }
 }
+
+$v = new Validator;
+
+// ... and so on.
 ```
 
 ## Rules
