@@ -26,8 +26,6 @@ class Validator extends Violin\Violin
         if($db->where('username', '=', $value)->count()) {
             return false; // Return false to fail validation
         }
-
-        return true;
     }
 }
 
