@@ -64,8 +64,8 @@ $v->addRuleMessage('required', 'You better fill in the %s field, or else.');
 
 ```php
 $v->addRuleMessages([
-    'required', 'You better fill in the %s field, or else.',
-    'int', 'The %s needs to be an integer, but I found %s.',
+    'required' => 'You better fill in the %s field, or else.',
+    'int' => 'The %s needs to be an integer, but I found %s.',
 ]);
 ```
 
@@ -82,7 +82,7 @@ $v->addFieldMessage('username', 'required', 'You need to enter a username to sig
 ```php
 $v->addFieldMessages([
     'username' => [
-        'required', 'You need to enter a username to sign up.'
+        'required' => 'You need to enter a username to sign up.'
     ],
     'age' => [
         'required' => 'I need your age.',
