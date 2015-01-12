@@ -48,45 +48,36 @@ class Validator
      */
     public function __call($method, $args)
     {
-        // Check if a custom rule has been defined and if so, call it
-        // and check if it's valid, adding an error if required.
-        if (method_exists($this, 'validate_' . $method)) {
-            $valid = call_user_func_array([$this, 'validate_' . $method], $args);
-
-            // Log an error if it's not valid
-            if (!$valid) {
-                $this->error($method, $args);
-            }
-
-            return;
-        }
-
         // Extract the possible internal class name
-        // to look for a validation rule.
+        // to look for a validation rule later.
         $rule = explode('_', $method);
         $rule = end($rule);
 
-        $ruleClass = 'Violin\\Rules\\' . ucfirst($rule);
+        // Holds what method we want to call to validate.
+        $toCall = null;
 
-        if (class_exists($ruleClass)) {
-            // Create a new instance of the internal rule class.
-            $ruleClass = new $ruleClass();
-
-            // Call the run method on the internal rule class,
-            // passing in the arguments (field and value).
-            $valid = call_user_func_array([$ruleClass, 'run'], $args);
-
-            // Log an error if it's not valid
-            if (!$valid) {
-                $this->error($rule, $args);
-            }
+        // Check if a custom rule has been defined and if so, call it
+        // and check if it's valid, adding an error if required.
+        if (method_exists($this, 'validate_' . $method)) {
+            $toCall = [$this, 'validate_' . $method];
         } else {
-            // Otherwise, we might have a custom added rule not defined
-            // within a class that extends Violin. Call it here.
-            $valid = $this->customRules[$rule]($args[0], $args[1]);
+            $ruleClass = 'Violin\\Rules\\' . ucfirst($rule);
 
-            // Log an error if it's not valid
-            if (!$valid) {
+            if (class_exists($ruleClass)) {
+                // Create a new instance of the internal rule class.
+                $ruleClass = new $ruleClass();
+                $toCall = [$ruleClass, 'run'];
+            } else {
+                $toCall = $this->customRules[$rule];
+            }
+        }
+
+        // If we've found a method to call, call it with arguments
+        // and check if the validation didn't pass.
+        if($toCall) {
+            $valid = call_user_func_array($toCall, $args);
+
+            if(!$valid) {
                 $this->error($rule, $args);
             }
         }
