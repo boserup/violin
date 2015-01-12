@@ -2,9 +2,9 @@
 
 namespace Violin;
 
-use Violin\Validator\Validator;
+use Violin\Validator\BaseValidator;
 
-class Violin extends Validator
+class Violin extends BaseValidator
 {
     /**
      * Kicks off validation by calling a method like validate_required.
