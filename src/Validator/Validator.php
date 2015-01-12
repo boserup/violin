@@ -48,10 +48,7 @@ class Validator
      */
     public function __call($method, $args)
     {
-        // Extract the possible internal class name
-        // to look for a validation rule later.
-        $rule = explode('_', $method);
-        $rule = end($rule);
+        $rule = $this->extractRuleName($method);
 
         // Holds what method and arguments we want to call to validate.
         $toCall = null;
@@ -94,6 +91,21 @@ class Validator
         if (!$valid && $valid !== null) {
             $this->error($rule, $args);
         }
+    }
+
+    /**
+     * Extract the rule name
+     * 
+     * @param  string $method
+     * @return string
+     */
+    protected function extractRuleName($method)
+    {
+        // Extract the possible internal class name
+        // to look for a validation rule later.
+        $rule = explode('validate_', $method);
+        
+        return end($rule);
     }
 
     /**
