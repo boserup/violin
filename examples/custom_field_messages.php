@@ -8,7 +8,7 @@ $v = new Violin;
 
 $v->addFieldMessages([
     'username' => [
-        'required', 'You need to enter a username to sign up.'
+        'required' => 'You need to enter a username to sign up.'
     ],
     'age' => [
         'required' => 'I need your age.',

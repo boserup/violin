@@ -7,9 +7,11 @@ use Violin\Violin;
 $v = new Violin;
 
 $v->addRuleMessages([
-    'required', 'You better fill in the %s field, or else.',
-    'int', 'The %s needs to be an integer, but I found %s.',
+    'required' => 'You better fill in the %s field, or else.',
+    'int' => 'The %s needs to be an integer, but I found %s.',
 ]);
+
+var_dump($v->ruleMessages);
 
 $v->validate([
     'name' => '',
