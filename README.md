@@ -10,7 +10,7 @@ Install using Composer.
 
 ```json
 {
-    "alexgarrett/violin": "dev-master"
+    "alexgarrett/violin": "1.*"
 }
 ```
 
@@ -165,3 +165,17 @@ If the value is present.
 ## Contributing
 
 Please file issues under GitHub, or submit a pull request if you'd like to directly contribute.
+
+## Todo
+
+* Allow parameter based rules. For example:
+
+```php
+$v->validate([
+    'name' => 'billy',
+    'age' => '20'
+], [
+    'name' => 'required',
+    'age' => 'required|int|max:21'
+]);
+```
